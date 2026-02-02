@@ -1,0 +1,19 @@
+---
+- name: Sauvegarde de la configuration du routeur
+  hosts: routeurs
+  gather_facts: no
+
+  tasks:
+    - name: Lire la running-config
+      ios_command:
+        commands: show running-config
+      register: config_output
+
+    - name: Afficher un message de confirmation
+      debug:
+        msg: "Configuration reçue. Taille: {{ config_output.stdout[0] | length }} caractères."
+
+    - name: Sauvegarder dans le fichier backup_csr1.txt
+      copy:
+        content: "{{ config_output.stdout[0] }}"
+        dest: "./backup_csr1.txt"

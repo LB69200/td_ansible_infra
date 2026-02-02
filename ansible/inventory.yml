@@ -1,0 +1,5 @@
+all:
+  children:
+    routeurs:
+      hosts:
+        csr1:
