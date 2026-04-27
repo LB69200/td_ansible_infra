@@ -1,0 +1,39 @@
+---
+- name: Configuration du routeur CSR1000
+  hosts: routeurs
+  gather_facts: no
+  tasks:
+    - name: Configuration IP des interfaces
+      cisco.ios.ios_l3_interfaces:
+        config:
+          - name: GigabitEthernet1
+            ipv4:
+              - dhcp:
+                  enable: true
+          - name: GigabitEthernet2
+            ipv4:
+              - address: 192.168.2.1/24
+          - name: GigabitEthernet3
+            ipv4:
+              - address: 192.168.3.1/24
+          - name: GigabitEthernet4
+            ipv4:
+              - address: 192.168.4.1/24
+        state: merged
+
+    - name: Activation et description des interfaces
+      cisco.ios.ios_interfaces:
+        config:
+          - name: GigabitEthernet1
+            description: WAN
+            enabled: true
+          - name: GigabitEthernet2
+            description: LAN_ENTREPRISE
+            enabled: true
+          - name: GigabitEthernet3
+            description: LAN_DMZ
+            enabled: true
+          - name: GigabitEthernet4
+            description: LAN_ADMIN
+            enabled: true
+        state: merged
