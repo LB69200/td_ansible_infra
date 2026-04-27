@@ -37,3 +37,16 @@
             description: LAN_ADMIN
             enabled: true
         state: merged
+
+    - name: Supprimer pool DHCP existant
+      cisco.ios.ios_config:
+        lines:
+          - no ip dhcp pool LAN_ENTREPRISE
+
+    - name: Configuration serveur DHCP
+      cisco.ios.ios_config:
+        lines:
+          - ip dhcp pool LAN_ENTREPRISE
+          - network 192.168.2.0 255.255.255.0
+          - default-router 192.168.2.1
+          - dns-server 8.8.8.8
