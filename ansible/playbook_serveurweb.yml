@@ -1,0 +1,27 @@
+---
+- name: Installation serveur web
+  hosts: serveurs
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: Mise a jour du cache apt
+      apt:
+        update_cache: yes
+
+    - name: Installation apache2
+      apt:
+        name: apache2
+        state: present
+
+    - name: Copie du site web
+      copy:
+        src: files/site_web/
+        dest: /var/www/html/
+        owner: www-data
+        mode: '0600'
+
+    - name: Redemarrage apache
+      service:
+        name: apache2
+        state: restarted
+        enabled: yes

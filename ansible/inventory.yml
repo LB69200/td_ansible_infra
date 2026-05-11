@@ -3,3 +3,9 @@ all:
     routeurs:
       hosts:
         csr1:
+    serveurs:
+      hosts:
+        web:
+          ansible_host: 192.168.3.2
+        ansible:
+          ansible_host: 127.0.0.1
